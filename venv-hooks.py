@@ -17,3 +17,5 @@ def after_install(options, home_dir):
   for package in easyInstallPackages:
     subprocess.call([os.path.join(home_dir, bin, 'easy_install'), package])
 
+  subprocess.call([os.path.join(home_dir, bin, 'python'), './setup.py', 'develop'])
+

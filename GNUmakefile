@@ -1,10 +1,15 @@
 PYTHON ?= `which python`
 VIRTUAL_ENV ?= venv
 
-all:
+.PHONY: all test upload setup
+
+all: test
 	./setup.py sdist bdist_egg
 
-upload:
+test:
+	py.test test
+
+upload: test
 	./setup.py sdist bdist_egg upload
 
 setup:
