@@ -2,7 +2,7 @@ PYTHON ?= `which python`
 VIRTUAL_ENV ?= venv
 
 all:
-	echo "Nothing to do"
+	./setup.py sdist bdist_egg
 
 upload:
 	./setup.py sdist bdist_egg upload
