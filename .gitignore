@@ -1,2 +1,5 @@
 venv
-
+build/
+dist/
+distribute*
+src/anyconf.egg-info/
