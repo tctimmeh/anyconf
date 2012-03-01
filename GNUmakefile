@@ -13,5 +13,5 @@ upload: test
 	./setup.py sdist bdist_egg upload
 
 setup:
-	$(PYTHON) create-dev-env.py --env $(VIRTUAL_ENV)
+	./create-dev-env.py --env $(VIRTUAL_ENV) --python $(PYTHON)
 
