@@ -1,2 +1,5 @@
+from .config import Config
+
 class ConfigLoader:
-  pass
+  def load(self, inputData, dataFormat = None):
+    return Config(dataFormat)

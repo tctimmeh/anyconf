@@ -7,7 +7,8 @@ def after_install(options, home_dir):
     bin = 'bin'
 
   pipPackages = [
-    'pytest >= 2.1',
+    'pytest >= 2.2',
+    'mock >= 0.8.0',
   ]
   easyInstallPackages = [
   ]
