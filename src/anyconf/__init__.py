@@ -1,1 +1,1 @@
-from configLoader import ConfigLoader
+from .configLoader import ConfigLoader
