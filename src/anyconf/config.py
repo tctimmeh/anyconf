@@ -15,6 +15,11 @@ class Config:
       return True
     raise AttributeError('No section named [%s]', attributeName)
 
+  def __getitem__(self, attributeName):
+    if self.parser.has_section(attributeName):
+      return True
+    raise IndexError('No section named [%s]', attributeName)
+
   def getFormat(self):
     return self.fmt
 

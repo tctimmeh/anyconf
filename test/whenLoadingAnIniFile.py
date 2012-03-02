@@ -30,4 +30,8 @@ class WhenLoadingAnIniFile:
   def testThatConfigDoesNotHavePropertiesForSectionsNotInConfig(self):
     config = self.loadConfigWithContent('[section]')
     assert not hasattr(config, 'somethingelse')
-      
+
+  def testThatSectionsAreAvailableAsDictItems(self):
+    expected = 'section'
+    config = self.loadConfigWithContent('[%s]' % expected)
+    assert config[expected] is not None
