@@ -1,5 +1,5 @@
 PYTHON ?= `which python`
-VIRTUAL_ENV ?= venv
+VIRTUAL_ENV_NAME ?= venv
 
 TEST_CMD = py.test test
 
@@ -12,11 +12,11 @@ test:
 	$(TEST_CMD)
 
 testall:
-	@for venv in $(VIRTUAL_ENV)*; do if [ -d $$venv ]; then . $$venv/bin/activate && $(TEST_CMD); fi; done
+	for venv in $(VIRTUAL_ENV_NAME)*; do if [ -d $$venv ]; then . $$venv/bin/activate && $(TEST_CMD); fi; done
 
 upload: test
 	./setup.py sdist bdist_egg upload
 
 setup:
-	./create-dev-env.py --env $(VIRTUAL_ENV) --python $(PYTHON)
+	./create-dev-env.py --env $(VIRTUAL_ENV_NAME) --python $(PYTHON)
 
