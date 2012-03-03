@@ -8,7 +8,6 @@ def after_install(options, home_dir):
 
   pipPackages = [
     'pytest >= 2.2',
-    'mock >= 0.8.0',
   ]
   easyInstallPackages = [
   ]
