@@ -10,29 +10,36 @@ class Config:
     self.parser = ConfigParser()
     self.parser.readfp(data)
 
-  def __getattr__(self, attributeName):
-    if self.parser.has_section(attributeName):
-      return ConfigSection(attributeName, self.parser)
-    raise AttributeError('No section named [%s]', attributeName)
-
-  def __getitem__(self, attributeName):
-    if self.parser.has_section(attributeName):
-      return ConfigSection(attributeName, self.parser)
-    raise IndexError('No section named [%s]', attributeName)
-
   def getFormat(self):
-    return self.fmt
+      return self.fmt
 
   def getParser(self):
-    return self.parser
+      return self.parser
+
+  def __getattr__(self, attributeName):
+      return self.__getSectionOrRaise__(attributeName, AttributeError)
+
+  def __getitem__(self, attributeName):
+      return self.__getSectionOrRaise__(attributeName, IndexError)
+
+  def __getSectionOrRaise__(self, attributeName, exceptionType):
+    if self.parser.has_section(attributeName):
+      return ConfigSection(attributeName, self.parser)
+    raise exceptionType('No section named [%s]', attributeName)
 
 class ConfigSection:
   def __init__(self, name, parser):
     self.sectionName = name
     self.parser = parser
 
+  def __getitem__(self, attributeName):
+    return self.__getValueOrRaise__(attributeName, IndexError)
+
   def __getattr__(self, attributeName):
+    return self.__getValueOrRaise__(attributeName, AttributeError)
+
+  def __getValueOrRaise__(self, attributeName, exceptionType):
     if self.parser.has_option(self.sectionName, attributeName):
       return self.parser.get(self.sectionName, attributeName)
-    raise AttributeError('No option named [%s]', attributeName)
+    raise exceptionType('No option named [%s]', attributeName)
 

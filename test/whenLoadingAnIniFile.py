@@ -52,3 +52,13 @@ class WhenLoadingAnIniFile:
     config = self.loadConfigWithContent(r'''[section]
 name = value''')
     assert not hasattr(config.section, uniqStr())
+
+  def testThatValuesAreAvailableAsDictItemsOfSection(self):
+    attrName = uniqStr()
+    attrValue = uniqStr()
+    config = self.loadConfigWithContent(r'''[section]
+%s = %s''' % (attrName, attrValue))
+
+    assert config.section[attrName] == attrValue
+
+
