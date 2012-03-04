@@ -75,3 +75,17 @@ name = value''')
     for i in range(5):
       assert expected[i] in actual
 
+  def testThatGettingChildrenOfConfigReturnsDictOfSections(self):
+    expected = {}
+    data = '[section]\n'
+    for i in range(5):
+      optionName = uniqStr()
+      optionValue = uniqStr()
+      data += '%s = %s\n' % (optionName, optionValue)
+      expected[optionName.lower()] = optionValue
+
+    config = self.loadConfigWithContent(data)
+
+    actual = config.section.getChildren()
+    assert actual == expected
+

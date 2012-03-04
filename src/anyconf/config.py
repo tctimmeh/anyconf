@@ -38,6 +38,13 @@ class ConfigSection:
     self.sectionName = name
     self.parser = parser
 
+  def getChildren(self):
+    out = {}
+    for option in self.parser.options(self.sectionName):
+      out[option] = self.parser.get(self.sectionName, option)
+
+    return out
+
   def __getitem__(self, attributeName):
     return self.__getValueOrRaise__(attributeName, IndexError)
 
