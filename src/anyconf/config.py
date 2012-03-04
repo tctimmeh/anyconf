@@ -16,6 +16,12 @@ class Config:
   def getParser(self):
       return self.parser
 
+  def getChildren(self):
+    out = {}
+    for section in self.parser.sections():
+      out[section] = ConfigSection(section, self.parser)
+    return out
+
   def __getattr__(self, attributeName):
       return self.__getSectionOrRaise__(attributeName, AttributeError)
 

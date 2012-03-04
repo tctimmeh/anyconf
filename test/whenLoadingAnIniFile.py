@@ -61,4 +61,17 @@ name = value''')
 
     assert config.section[attrName] == attrValue
 
+  def testThatGettingChildrenOfConfigReturnsDictOfSections(self):
+    expected = []
+    data = ''
+    for i in range(5):
+      sectionName = uniqStr()
+      data += '[%s]\n' % sectionName
+      expected.append(sectionName)
+
+    config = self.loadConfigWithContent(data)
+
+    actual = config.getChildren().keys()
+    for i in range(5):
+      assert expected[i] in actual
 
