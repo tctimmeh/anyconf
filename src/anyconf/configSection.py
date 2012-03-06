@@ -1,4 +1,4 @@
-class ConfigSection:
+class ConfigSection(object):
   def getChildren(self):
     return {}
 
