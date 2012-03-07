@@ -5,7 +5,7 @@ from io import StringIO
 import anyconf
 
 @pytest.mark.parametrize(("fileFormat"), anyconf.Formats)
-class WhenLoadingAnIniFile:
+class WhenLoadingAnyFile:
   def setup_method(self, method):
     self.configLoader = anyconf.ConfigLoader()
     self.fileObj = StringIO('')

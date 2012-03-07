@@ -8,6 +8,7 @@ def after_install(options, home_dir):
 
   pipPackages = [
     'pytest >= 2.2',
+    'PyYAML >= 3.09'
   ]
   easyInstallPackages = [
   ]
