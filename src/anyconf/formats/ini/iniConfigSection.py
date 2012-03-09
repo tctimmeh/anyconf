@@ -12,13 +12,8 @@ class IniConfigSection(ConfigSection):
 
     return out
 
-  def __getitem__(self, attributeName):
-    return self.__getValueOrRaise__(attributeName, IndexError)
+  def _getChild(self, name):
+    if self.parser.has_option(self.sectionName, name):
+      return self.parser.get(self.sectionName, name)
+    return None
 
-  def __getattr__(self, attributeName):
-    return self.__getValueOrRaise__(attributeName, AttributeError)
-
-  def __getValueOrRaise__(self, attributeName, exceptionType):
-    if self.parser.has_option(self.sectionName, attributeName):
-      return self.parser.get(self.sectionName, attributeName)
-    raise exceptionType('No option named [%s]', attributeName)

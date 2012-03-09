@@ -21,14 +21,8 @@ class IniConfig(Config):
       out[section] = IniConfigSection(section, self.parser)
     return out
 
-  def __getattr__(self, attributeName):
-      return self.__getSectionOrRaise__(attributeName, AttributeError)
-
-  def __getitem__(self, attributeName):
-      return self.__getSectionOrRaise__(attributeName, IndexError)
-
-  def __getSectionOrRaise__(self, attributeName, exceptionType):
-    if self.parser.has_section(attributeName):
-      return IniConfigSection(attributeName, self.parser)
-    raise exceptionType('No section named [%s]', attributeName)
+  def _getChild(self, name):
+    if self.parser.has_section(name):
+      return IniConfigSection(name, self.parser)
+    return None
 
