@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
 
-import string, random
 import pytest
 from io import StringIO
+
+from testHelpers import uniqStr
 
 try:
   from ConfigParser import ConfigParser
@@ -10,9 +11,6 @@ except ImportError as e:
   from configparser import ConfigParser
 
 import anyconf
-
-def uniqStr():
-  return ''.join(random.choice(string.ascii_letters + string.digits) for x in range(20))
 
 class WhenLoadingAnIniFile:
   def setup_method(self, method):
