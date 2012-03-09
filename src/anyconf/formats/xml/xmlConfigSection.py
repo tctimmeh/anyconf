@@ -34,9 +34,16 @@ class XmlConfigSection(ConfigSection):
   def _formatChildElement(self, element):
     cdata = self.__getElementCData(element)
     if len(cdata) > 0:
-      return cdata
+      return self.__formatCData(cdata)
 
     return XmlConfigSection(element)
+
+  def __formatCData(self, cdata):
+    if cdata.lower() == 'true':
+      return True
+    if cdata.lower() == 'false':
+      return False
+    return cdata
 
   def __getElementCData(self, element):
     cdata = ''
