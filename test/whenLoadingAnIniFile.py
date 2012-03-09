@@ -89,3 +89,15 @@ name = value''')
     actual = config.section.getChildren()
     assert actual == expected
 
+  def testThatConfigContainsSections(self):
+    expected = uniqStr()
+    config = self.loadConfigWithContent('[%s]' % expected)
+    assert expected in config
+
+  def testThatSectionsContainOptions(self):
+    attrName = uniqStr()
+    config = self.loadConfigWithContent(r'''[section]
+%s = %s''' % (attrName, uniqStr()))
+
+    assert attrName in config.section
+

@@ -11,6 +11,9 @@ class ConfigSection(object):
   def __getitem__(self, attributeName):
     return self.__getChildOrRaise(attributeName, IndexError)
 
+  def __contains__(self, attributeName):
+    return self._getChild(attributeName) is not None
+
   def __getChildOrRaise(self, name, exceptionType):
     out = self._getChild(name)
     if out is not None:
