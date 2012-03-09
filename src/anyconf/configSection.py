@@ -8,3 +8,5 @@ class ConfigSection(object):
   def __getitem__(self, attributeName):
     raise AttributeError('Internal Error')
 
+  def getAsList(self, attributeName):
+    return [self[attributeName]]

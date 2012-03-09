@@ -24,12 +24,23 @@ class XmlConfigSection(ConfigSection):
   def _getChild(self, name):
     if self.element.hasAttribute(name):
       return self.element.getAttribute(name)
+    return self.__getChildElements(name)
 
+  def __getChildElements(self, name):
+    children = self.__collectChildElements(name)
+
+    if len(children) == 1:
+      return children[0]
+    if len(children):
+      return children
+    return None
+
+  def __collectChildElements(self, name):
+    children = []
     for child in self.element.childNodes:
       if isinstance(child, xml.dom.minidom.Element) and (child.nodeName == name):
-        return self._formatChildElement(child)
-
-    return None
+        children.append(self._formatChildElement(child))
+    return children
 
   def _formatChildElement(self, element):
     if element.hasAttributes() or self.__hasChildElements(element):
