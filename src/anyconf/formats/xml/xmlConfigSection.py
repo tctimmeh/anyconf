@@ -32,11 +32,19 @@ class XmlConfigSection(ConfigSection):
     return None
 
   def _formatChildElement(self, element):
-    cdata = self.__getElementCData(element)
-    if len(cdata) > 0:
-      return self.__formatCData(cdata)
+    if element.hasAttributes() or self.__hasChildElements(element):
+      return XmlConfigSection(element)
+    return self.__formatElementCData(element)
 
-    return XmlConfigSection(element)
+  def __hasChildElements(self, element):
+    for node in element.childNodes:
+      if isinstance(node, xml.dom.minidom.Element):
+        return True
+    return False
+
+  def __formatElementCData(self, element):
+    cdata = self.__getElementCData(element)
+    return self.__formatCData(cdata)
 
   def __formatCData(self, cdata):
     if cdata.lower() == 'true':

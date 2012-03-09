@@ -8,9 +8,9 @@ class WhenAccessingCData(XmlFixture):
     super(WhenAccessingCData, self).setup_method(method)
 
     self.data = uniqStr()
-    self.config = self.loadConfigWithContent('<top><next>%s</next></top>' % self.data)
 
   def testThatElementDataIsReturned(self):
+    self.config = self.loadConfigWithContent('<top><next>%s</next></top>' % self.data)
     assert self.config.top.next == self.data
 
   def testThatTrueStringsAreBooleanTrue(self):
@@ -29,4 +29,11 @@ class WhenAccessingCData(XmlFixture):
     self.config = self.loadConfigWithContent('<top><next>FALSE</next></top>')
     assert self.config.top.next == False
 
+  def testThatElementsWithAttributesAreNotRepresentedByTheirCData(self):
+    self.config = self.loadConfigWithContent('<top><next attr="something">%s</next></top>' % self.data)
+    assert self.config.top.next != self.data
+
+  def testThatElementsWithChildrenAreNotRepresentedByTheirCData(self):
+    self.config = self.loadConfigWithContent('<top><next>%s<child /></next></top>' % self.data)
+    assert self.config.top.next != self.data
 
