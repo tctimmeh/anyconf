@@ -47,6 +47,8 @@ class XmlConfigSection(ConfigSection):
     return self.__formatCData(cdata)
 
   def __formatCData(self, cdata):
+    if len(cdata) == 0:
+      return True
     if cdata.lower() == 'true':
       return True
     if cdata.lower() == 'false':

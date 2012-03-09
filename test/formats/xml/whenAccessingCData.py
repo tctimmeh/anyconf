@@ -37,3 +37,7 @@ class WhenAccessingCData(XmlFixture):
     self.config = self.loadConfigWithContent('<top><next>%s<child /></next></top>' % self.data)
     assert self.config.top.next != self.data
 
+  def testThatEmptyElementBecomesBooleanTrue(self):
+    self.config = self.loadConfigWithContent('<top><next /></top>')
+    assert self.config.top.next == True
+
