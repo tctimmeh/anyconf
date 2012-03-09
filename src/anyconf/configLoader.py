@@ -10,6 +10,7 @@ class ConfigLoader:
       return config
     elif dataFormat == FORMAT_XML:
       config = XmlConfig()
+      config.loadFromFile(inputData)
       return config
 
     return None

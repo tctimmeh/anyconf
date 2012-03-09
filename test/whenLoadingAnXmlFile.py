@@ -13,5 +13,5 @@ class WhenLoadingAnIniFile:
     return self.configLoader.load(fileObj, anyconf.FORMAT_XML)
 
   def testThatConfigObjectHasXmlDocumentInstance(self):
-    config = self.loadConfigWithContent('')
-#    assert isinstance(config.getParser(), xml.dom.minidom.Document)
+    config = self.loadConfigWithContent('<test />')
+    assert isinstance(config.getParser(), xml.dom.minidom.Document)
