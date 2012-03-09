@@ -22,7 +22,12 @@ class XmlConfigSection(ConfigSection):
     raise exceptionType('No child named [%s]' % item)
 
   def _getChild(self, name):
+    if self.element.hasAttribute(name):
+      return self.element.getAttribute(name)
+
     for child in self.element.childNodes:
       if isinstance(child, xml.dom.minidom.Element) and (child.nodeName == name):
         return XmlConfigSection(child)
+
     return None
+
