@@ -23,3 +23,8 @@ class WhenAccessingTopLevelElement(XmlFixture):
 
   def testThatConfigDoesNotHavePropertyForWrongTopLevelElement(self):
     assert not hasattr(self.config, uniqStr())
+
+  def testThatCDataIsReturnedIfElementHasNoAttributesOrChildren(self):
+    expected = uniqStr()
+    self.config = self.loadConfigWithContent('<top>%s</top>' % expected)
+    assert self.config.top == expected

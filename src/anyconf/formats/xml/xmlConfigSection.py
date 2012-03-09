@@ -27,7 +27,21 @@ class XmlConfigSection(ConfigSection):
 
     for child in self.element.childNodes:
       if isinstance(child, xml.dom.minidom.Element) and (child.nodeName == name):
-        return XmlConfigSection(child)
+        return self._formatChildElement(child)
 
     return None
+
+  def _formatChildElement(self, element):
+    cdata = self.__getElementCData(element)
+    if len(cdata) > 0:
+      return cdata
+
+    return XmlConfigSection(element)
+
+  def __getElementCData(self, element):
+    cdata = ''
+    for node in element.childNodes:
+      if isinstance(node, xml.dom.minidom.Text):
+        cdata += node.data
+    return cdata.strip()
 

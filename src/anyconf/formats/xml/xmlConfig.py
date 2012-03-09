@@ -13,6 +13,7 @@ class XmlConfig(Config, XmlConfigSection):
 
   def _getChild(self, name):
     if self.parser.documentElement.nodeName == name:
-      return XmlConfigSection(self.parser.documentElement)
+      return self._formatChildElement(self.parser.documentElement)
+
     return None
 
