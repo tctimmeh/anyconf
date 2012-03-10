@@ -7,6 +7,15 @@ class XmlConfigSection(ConfigSection):
     super(XmlConfigSection, self).__init__()
     self.element = element
 
+  def getChildren(self):
+    children = set()
+    for i in range(self.element.attributes.length):
+      children.add(self.element.attributes.item(i).name)
+    for child in self.element.childNodes:
+      if isinstance(child, xml.dom.minidom.Element):
+        children.add(child.nodeName)
+    return children
+
   def _getChild(self, name):
     if self.element.hasAttribute(name):
       return self.element.getAttribute(name)

@@ -11,6 +11,9 @@ class XmlConfig(Config):
   def loadFromFile(self, inputFile):
     self.parser = xml.dom.minidom.parse(inputFile)
 
+  def getChildren(self):
+    return [elementToConfigItem(self.parser.documentElement)]
+
   def _getChild(self, name):
     if self.parser.documentElement.nodeName == name:
       return elementToConfigItem(self.parser.documentElement)
