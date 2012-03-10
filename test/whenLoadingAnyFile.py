@@ -1,10 +1,17 @@
-from __future__ import unicode_literals
-
 import pytest
-from io import StringIO
+
+import sys
+if sys.version_info[0] >= 3:
+  from io import StringIO
+else:
+  from StringIO import StringIO
+
 import anyconf
 
-@pytest.mark.parametrize(("fileFormat"), anyconf.Formats)
+def pytest_generate_tests(metafunc):
+  if "fileFormat" in metafunc.funcargnames:
+    metafunc.parametrize("fileFormat", anyconf.Formats)
+
 class WhenLoadingAnIniFile:
   def setup_method(self, method):
     self.configLoader = anyconf.ConfigLoader()

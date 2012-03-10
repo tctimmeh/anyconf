@@ -2,10 +2,11 @@ from ...formats import FORMAT_INI
 from ...config import Config
 from .iniConfigSection import IniConfigSection
 
-try:
-  from ConfigParser import ConfigParser
-except ImportError as e:
+import sys
+if sys.version_info[0] >= 3:
   from configparser import ConfigParser
+else:
+  from ConfigParser import ConfigParser
 
 class IniConfig(Config):
   def __init__(self):

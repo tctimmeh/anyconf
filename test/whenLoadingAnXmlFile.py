@@ -1,7 +1,11 @@
-from __future__ import unicode_literals
+import sys
 
 import xml.dom.minidom
-from io import StringIO
+if sys.version_info[0] >= 3:
+  from io import StringIO
+else:
+  from StringIO import StringIO
+
 import anyconf
 
 class WhenLoadingAnIniFile:
