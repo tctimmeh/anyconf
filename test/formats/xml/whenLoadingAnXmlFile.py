@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 import xml.dom.minidom
 from formats.xml.xmlFixture import XmlFixture
 

@@ -2,7 +2,7 @@ from ...config import Config
 from ...formats import FORMAT_XML
 from .helpers import elementToConfigItem
 
-import xml
+import xml.dom.minidom
 
 class XmlConfig(Config):
   def __init__(self):

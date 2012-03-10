@@ -1,14 +1,14 @@
-from __future__ import unicode_literals
+import string, random
 
-import pytest
-from io import StringIO
+import sys
+if sys.version_info[0] >= 3:
+  from configparser import ConfigParser
+  from io import StringIO
+else:
+  from ConfigParser import ConfigParser
+  from StringIO import StringIO
 
 from testHelpers import uniqStr
-
-try:
-  from ConfigParser import ConfigParser
-except ImportError as e:
-  from configparser import ConfigParser
 
 import anyconf
 

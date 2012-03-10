@@ -1,5 +1,3 @@
-from __future__ import unicode_literals
-
 from testHelpers import uniqStr
 from formats.xml.xmlFixture import XmlFixture
 
