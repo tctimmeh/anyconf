@@ -1,10 +1,10 @@
 from ...config import Config
-from .xmlConfigSection import XmlConfigSection
 from ...formats import FORMAT_XML
+from .helpers import elementToConfigItem
 
 import xml
 
-class XmlConfig(Config, XmlConfigSection):
+class XmlConfig(Config):
   def __init__(self):
     super(XmlConfig, self).__init__(FORMAT_XML)
 
@@ -13,7 +13,6 @@ class XmlConfig(Config, XmlConfigSection):
 
   def _getChild(self, name):
     if self.parser.documentElement.nodeName == name:
-      return self._formatChildElement(self.parser.documentElement)
+      return elementToConfigItem(self.parser.documentElement)
 
     return None
-
