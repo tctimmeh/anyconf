@@ -63,8 +63,10 @@ Supported Formats
 
 Supported Python Versions
 -------------------------
+* 2.5
 * 2.6
 * 2.7
+* 3.1
 * 3.2
 
 Format Mappings
