@@ -1,18 +1,16 @@
-from __future__ import unicode_literals
-
 import string, random
-import pytest
-from io import StringIO
 
-try:
-  from ConfigParser import ConfigParser
-except ImportError as e:
+import sys
+if sys.version_info[0] >= 3:
   from configparser import ConfigParser
+  from io import StringIO
+else:
+  from ConfigParser import ConfigParser
+  from StringIO import StringIO
+
+from testHelpers import uniqStr
 
 import anyconf
-
-def uniqStr():
-  return ''.join(random.choice(string.ascii_letters + string.digits) for x in range(20))
 
 class WhenLoadingAnIniFile:
   def setup_method(self, method):
@@ -88,4 +86,16 @@ name = value''')
 
     actual = config.section.getChildren()
     assert actual == expected
+
+  def testThatConfigContainsSections(self):
+    expected = uniqStr()
+    config = self.loadConfigWithContent('[%s]' % expected)
+    assert expected in config
+
+  def testThatSectionsContainOptions(self):
+    attrName = uniqStr()
+    config = self.loadConfigWithContent(r'''[section]
+%s = %s''' % (attrName, uniqStr()))
+
+    assert attrName in config.section
 

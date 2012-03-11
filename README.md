@@ -53,12 +53,83 @@ Supported Formats
       <td><a href="http://docs.python.org/dev/library/configparser.html">configparser</a></td>
       <td>Uses <a href="http://docs.python.org/library/configparser.html">ConfigParser</a> in python 2</td>
     </tr>
+    <tr>
+      <td>.xml</td>
+      <td><a href="http://docs.python.org/release/3.1.3/library/xml.dom.minidom.html">minidom</a></td>
+      <td></td>
+    </tr>
   </tbody>
 </table>
 
 Supported Python Versions
 -------------------------
+* 2.5
 * 2.6
 * 2.7
+* 3.1
 * 3.2
 
+Format Mappings
+---------------
+
+This section demonstrates how AnyConf maps each file format to python objects.
+
+### XML ###
+
+<table>
+  <thead>
+    <tr>
+      <td>XML Source</td>
+      <td>Python Representation</td>
+      <td>Comments</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>&lt;e&gt;<br />&nbsp;&nbsp;my text<br />&nbsp;&nbsp;goes here<br />&lt;/e&gt;</td>
+      <td>config.e == 'my text\n  goes here'</td>
+      <td>Accessing an element that contains only CDATA text returns that text as the value of the option with leading
+          and trailing whitespace removed.</td>
+    </tr>
+    <tr>
+      <td>&lt;e&gt;<br />
+          &nbsp;&nbsp;&lt;a&gt;true&lt;/a&gt;<br />
+          &nbsp;&nbsp;&lt;b&gt;false&lt;/b&gt;<br />
+          &nbsp;&nbsp;&lt;c&nbsp;/&gt;<br />
+          &lt;/e&gt;</td>
+      <td>config.e.a == True<br />
+          config.e.b == False<br />
+          config.e.c == True</td>
+      <td>Case-insensitive "true" and "false" become the boolean True and False respectively. Blank text also become
+          the boolean True.</td>
+    </tr>
+    <tr>
+      <td>&lt;e option=&quot;value&quot; /&gt;</td>
+      <td>config.e.option == 'value'</td>
+      <td>Element attributes can also be read as configuration options.</td>
+    </tr>
+    <tr>
+      <td>&lt;e&gt;<br />
+          &nbsp;&nbsp;&lt;f&gt;something&lt;/f&gt;<br />
+          &lt;/e&gt;</td>
+      <td>config.e.f == 'something'</td>
+      <td>Nested elements form a hierarchy of python objects.</td>
+    </tr>
+    <tr>
+      <td>&lt;e&gt;<br />
+          &nbsp;&nbsp;&lt;f attr=&quot;first&quot; /&gt;<br />
+          &nbsp;&nbsp;&lt;f attr=&quot;second&quot; /&gt;<br />
+          &lt;/e&gt;</td>
+      <td>config.e.f[0].attr == 'first'<br />
+          config.e.f[1].attr == 'second'<br /></td>
+      <td>If an element has more than one child with the same name then they are represented as a list of options.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Notes ####
+
+* Elements with attributes or child elements *ignore* their CDATA text. It is best to encapsulate all text within an
+  element and avoid attributes altogether.
+* Use the `getAsList` method for options that may be lists of less than 2 elements to guarantee that the API will
+  always return a list.

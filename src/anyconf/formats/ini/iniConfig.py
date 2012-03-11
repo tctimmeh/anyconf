@@ -2,10 +2,11 @@ from ...formats import FORMAT_INI
 from ...config import Config
 from .iniConfigSection import IniConfigSection
 
-try:
-  from ConfigParser import ConfigParser
-except ImportError as e:
+import sys
+if sys.version_info[0] >= 3:
   from configparser import ConfigParser
+else:
+  from ConfigParser import ConfigParser
 
 class IniConfig(Config):
   def __init__(self):
@@ -21,14 +22,8 @@ class IniConfig(Config):
       out[section] = IniConfigSection(section, self.parser)
     return out
 
-  def __getattr__(self, attributeName):
-      return self.__getSectionOrRaise__(attributeName, AttributeError)
-
-  def __getitem__(self, attributeName):
-      return self.__getSectionOrRaise__(attributeName, IndexError)
-
-  def __getSectionOrRaise__(self, attributeName, exceptionType):
-    if self.parser.has_section(attributeName):
-      return IniConfigSection(attributeName, self.parser)
-    raise exceptionType('No section named [%s]', attributeName)
+  def _getChild(self, name):
+    if self.parser.has_section(name):
+      return IniConfigSection(name, self.parser)
+    return None
 
