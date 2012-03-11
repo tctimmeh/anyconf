@@ -1,7 +1,7 @@
 PYTHON ?= `which python`
 VIRTUAL_ENV_NAME ?= venv
 
-TEST_CMD = py.test test
+TEST_CMD = python --version && py.test test -q
 
 .PHONY: all test upload setup
 
