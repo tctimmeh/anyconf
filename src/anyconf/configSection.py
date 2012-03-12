@@ -23,3 +23,16 @@ class ConfigSection(object):
       return out
     raise exceptionType('No child named [%s]' % name)
 
+  def _decodeOptionValue(self, value):
+    value = value.strip()
+    if not len(value):
+      return True
+
+    normalizedValue = value.lower()
+    if normalizedValue == 'true':
+      return True
+    if normalizedValue == 'false':
+      return False
+
+    return value
+
