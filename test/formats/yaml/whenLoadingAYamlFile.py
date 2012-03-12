@@ -13,3 +13,9 @@ class WhenLoadingAYamlFile:
     configLoader = anyconf.ConfigLoader()
     fileObj = StringIO('')
     configLoader.load(fileObj, anyconf.FORMAT_YAML)
+
+  def testThatConfigObjectHasDictInstance(self):
+    configLoader = anyconf.ConfigLoader()
+    fileObj = StringIO('test:')
+    config = configLoader.load(fileObj, anyconf.FORMAT_YAML)
+    assert isinstance(config.getParser(), dict)

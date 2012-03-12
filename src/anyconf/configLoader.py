@@ -15,6 +15,7 @@ class ConfigLoader:
       return config
     elif dataFormat == FORMAT_YAML:
       config = YamlConfig()
+      config.loadFromFile(inputData)
       return config
 
     return None
