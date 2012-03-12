@@ -5,17 +5,18 @@ from .formats import FORMAT_INI, FORMAT_XML, FORMAT_YAML
 
 class ConfigLoader:
   def load(self, inputData, dataFormat = None):
-    if dataFormat == FORMAT_INI:
-      config = IniConfig()
+    config = self.createConfig(dataFormat)
+    if config:
       config.loadFromFile(inputData)
-      return config
-    elif dataFormat == FORMAT_XML:
-      config = XmlConfig()
-      config.loadFromFile(inputData)
-      return config
-    elif dataFormat == FORMAT_YAML:
-      config = YamlConfig()
-      config.loadFromFile(inputData)
-      return config
+    return config
 
-    return None
+  def createConfig(self, dataFormat):
+    configOptions = { FORMAT_INI: IniConfig(),
+                      FORMAT_XML: XmlConfig(),
+                      FORMAT_YAML: YamlConfig()}
+    try:
+      config = configOptions[dataFormat]
+    except KeyError:
+      config = None
+    return config
+
