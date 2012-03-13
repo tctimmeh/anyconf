@@ -1,21 +1,10 @@
-import sys
+from formats.yaml.yamlFixture import YamlFixture
 
-if sys.version_info[0] >= 3:
-  from io import StringIO
-else:
-  from StringIO import StringIO
+class WhenLoadingAYamlFile(YamlFixture):
 
-import anyconf
-
-class WhenLoadingAYamlFile:
-
-  def testThatConfigObjectCanBeCreated(self):
-    configLoader = anyconf.ConfigLoader()
-    fileObj = StringIO('')
-    configLoader.load(fileObj, anyconf.FORMAT_YAML)
+  def setup_method(self, method):
+    super(WhenLoadingAYamlFile, self).setup_method(method)
 
   def testThatConfigObjectHasDictInstance(self):
-    configLoader = anyconf.ConfigLoader()
-    fileObj = StringIO('test:')
-    config = configLoader.load(fileObj, anyconf.FORMAT_YAML)
+    config = self.loadConfigWithContent('test:')
     assert isinstance(config.getParser(), dict)

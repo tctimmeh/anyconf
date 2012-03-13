@@ -9,3 +9,9 @@ class YamlConfig(Config):
 
   def loadFromFile(self, inputFile):
     self.parser = yaml.load(inputFile)
+
+  def _getChild(self, name):
+    try:
+      return self.parser[name]
+    except KeyError:
+      return None
