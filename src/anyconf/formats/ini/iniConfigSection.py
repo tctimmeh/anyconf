@@ -13,7 +13,8 @@ class IniConfigSection(ConfigSection):
     return out
 
   def _getChild(self, name):
-    if self.parser.has_option(self.sectionName, name):
-      return self.parser.get(self.sectionName, name)
-    return None
+    if not self.parser.has_option(self.sectionName, name):
+      return None
+    out = self.parser.get(self.sectionName, name)
+    return self._decodeOptionValue(out)
 

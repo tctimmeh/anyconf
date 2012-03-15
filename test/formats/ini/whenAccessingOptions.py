@@ -33,4 +33,24 @@ name = value''')
 
     assert attrName in config.section
 
+  def testThatTrueValuesBecomeBooleanTrue(self):
+    attrName = uniqStr()
+    config = self.loadConfigWithContent(r'''[section]
+%s = true  ''' % attrName)
+
+    assert config.section[attrName] == True
+
+  def testThatFalseValuesBecomeBooleanFalse(self):
+    attrName = uniqStr()
+    config = self.loadConfigWithContent(r'''[section]
+%s = False  ''' % attrName)
+
+    assert config.section[attrName] == False
+
+  def testThatEmptyValuesBecomeBooleanTrue(self):
+    attrName = uniqStr()
+    config = self.loadConfigWithContent(r'''[section]
+%s =  ''' % attrName)
+
+    assert config.section[attrName] == True
 
