@@ -12,6 +12,12 @@ class YamlConfig(Config):
 
   def _getChild(self, name):
     try:
-      return self.parser[name]
+      return self.elementToConfigItem(self.parser[name])
     except KeyError:
       return None
+
+  def elementToConfigItem(self, element):
+    if element is None:
+      return ''
+    else:
+      return element
