@@ -8,7 +8,7 @@ if sys.version_info[0] >= 3:
 else:
   from ConfigParser import ConfigParser
 
-class IniConfig(Config):
+class IniConfig(Config, IniConfigSection):
   def __init__(self):
     super(IniConfig, self).__init__(FORMAT_INI)
 
@@ -19,11 +19,11 @@ class IniConfig(Config):
   def getChildren(self):
     out = {}
     for section in self.parser.sections():
-      out[section] = IniConfigSection(section, self.parser)
+      childName = section.split('.')[0]
+      out[childName] = self._getChild(childName)
+
     return out
 
   def _getChild(self, name):
-    if self.parser.has_section(name):
-      return IniConfigSection(name, self.parser)
-    return None
+    return self._getChildSection(name)
 
