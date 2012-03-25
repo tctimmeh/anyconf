@@ -16,13 +16,13 @@ class WhenAccessingTopLevelElement(YamlFixture):
   def testThatTopLevelElementIsIndexOfConfig(self):
     assert self.config[self.elementName] is not None
 
-  def testThatConfigContainsTopLevelElement(self):
+  def testThatConfigContainsTopLevelItem(self):
     assert self.elementName in self.config
 
-  def testThatConfigDoesNotContainItemsThatAreNotTopLevelElement(self):
+  def testThatConfigDoesNotContainItemsThatAreNotTopLevelItems(self):
     assert uniqStr() not in self.config
 
-  def testThatConfigDoesNotHavePropertyForWrongTopLevelElement(self):
+  def testThatConfigDoesNotHavePropertyForWrongTopLevelItem(self):
     assert not hasattr(self.config, uniqStr())
 
   def testThatDataIsReturnedIfElementHasNoChildren(self):
