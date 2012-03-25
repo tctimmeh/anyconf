@@ -20,6 +20,8 @@ class IniConfig(Config, IniConfigSection):
     out = {}
     for section in self.parser.sections():
       childName = section.split('.')[0]
+      if childName in out:
+        continue
       out[childName] = self._getChild(childName)
 
     return out

@@ -65,3 +65,23 @@ class WhenAccessingSectionLists(IniFixture):
     assert self.values[-2] in actualValues
     assert self.values[-1] in actualValues
 
+  def testThatSectionsWithoutNumbersAreGivenIndexEquivalentOfZero(self):
+    self.sectionNumbers = list(range(3))
+    value = uniqStr()
+    self.values.append(value)
+    content = '[%s]\noption = %s\n' % (self.sectionName, value)
+    content += self.generateContent()
+    self.sectionNumbers = [0] + self.sectionNumbers
+    config = self.loadConfigWithContent(content)
+
+    actualValues = []
+    actualValues.append(config[self.sectionName][0]['option'])
+    actualValues.append(config[self.sectionName][1]['option'])
+
+    assert self.values[0] in actualValues
+    assert self.values[1] in actualValues
+
+  def testThatListSectionsAreOfTypeList(self):
+    self.sectionNumbers = range(10)
+    config = self.generateConfig()
+    assert type(config[self.sectionName]) is list
