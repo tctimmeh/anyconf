@@ -1,5 +1,6 @@
 import collections
 import re
+from anyconf.formats.ini.optionCollator import OptionCollator
 from ...configSection import ConfigSection
 
 class IniConfigSection(ConfigSection):
@@ -21,7 +22,6 @@ class IniConfigSection(ConfigSection):
     child = self._getChildSection(childSectionName)
     if child is not None:
       return child
-
     return self.__getOptionValue(name)
 
   def _getChildSection(self, sectionName):
@@ -101,31 +101,7 @@ class IniConfigSection(ConfigSection):
   def __getOptionValue(self, name):
     if self.sectionName is None:
       return None
-
-    name = name.lower()
-    optionsByNumber = collections.defaultdict(set)
-    rxNumberedOptions = re.compile('%s.(\d+)$' % name)
-    for option in self.parser.options(self.sectionName):
-      if option == name:
-        optionsByNumber[0].add(option)
-        continue
-
-      m = rxNumberedOptions.match(option)
-      if m is not None:
-        optionNumber = int(m.group(1))
-        optionsByNumber[optionNumber].add(option)
-
-    if not len(optionsByNumber):
-       return None
-
-    out = []
-    for optionNumber in sorted(optionsByNumber.keys()):
-      for option in optionsByNumber[optionNumber]:
-        out.append(self._decodeOptionValue(self.parser.get(self.sectionName, option)))
-
-    if len(out) == 1:
-      return out[0]
-    return out
+    return OptionCollator(self.parser, self.sectionName).getOptions(name)
 
   def __getOptions(self):
     if self.sectionName is None:

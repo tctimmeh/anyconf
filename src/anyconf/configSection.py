@@ -23,7 +23,8 @@ class ConfigSection(object):
       return out
     raise exceptionType('No child named [%s]' % name)
 
-  def _decodeOptionValue(self, value):
+  @staticmethod
+  def _decodeOptionValue(value):
     value = value.strip()
     if not len(value):
       return True
