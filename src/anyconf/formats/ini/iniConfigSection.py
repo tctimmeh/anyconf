@@ -79,11 +79,6 @@ class IniConfigSection(ConfigSection):
     else:
       return self._getChildSection("%s.%s" % (self.name, number))
 
-  def __getOptionValue(self, name):
-    if self.parser.has_option(self.sectionName, name):
-      value = self.parser.get(self.sectionName, name)
-      return self._decodeOptionValue(value)
-
   def __getChildSections(self):
     out = {}
 
@@ -102,6 +97,35 @@ class IniConfigSection(ConfigSection):
     nameSizeWithDot = len(self.name) + 1
     childName = sectionName[nameSizeWithDot:].split('.')[0]
     return childName
+
+  def __getOptionValue(self, name):
+    if self.sectionName is None:
+      return None
+
+    name = name.lower()
+    optionsByNumber = collections.defaultdict(set)
+    rxNumberedOptions = re.compile('%s.(\d+)$' % name)
+    for option in self.parser.options(self.sectionName):
+      if option == name:
+        optionsByNumber[0].add(option)
+        continue
+
+      m = rxNumberedOptions.match(option)
+      if m is not None:
+        optionNumber = int(m.group(1))
+        optionsByNumber[optionNumber].add(option)
+
+    if not len(optionsByNumber):
+       return None
+
+    out = []
+    for optionNumber in sorted(optionsByNumber.keys()):
+      for option in optionsByNumber[optionNumber]:
+        out.append(self._decodeOptionValue(self.parser.get(self.sectionName, option)))
+
+    if len(out) == 1:
+      return out[0]
+    return out
 
   def __getOptions(self):
     if self.sectionName is None:
