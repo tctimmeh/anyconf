@@ -25,59 +25,8 @@ class IniConfigSection(ConfigSection):
     return self.__getOptionValue(name)
 
   def _getChildSection(self, sectionName):
-    out = self.__getConfigSection(sectionName)
-    if out is None:
-      return None
-
-    numberedSiblings = out.__getNumberedSiblings()
-    if len(numberedSiblings) > 1:
-      return numberedSiblings
-
-    return out
-
-  def __getConfigSection(self, sectionName):
-    if self.parser.has_section(sectionName):
-      return IniConfigSection(sectionName, sectionName, self.parser)
-
-    for section in self.parser.sections():
-      if section.startswith("%s." % sectionName):
-        return IniConfigSection(sectionName, None, self.parser)
-
-    return None
-
-  def __getNumberedSiblingNames(self):
-    siblingsByNumber = collections.defaultdict(set)
-    for section in self.parser.sections():
-      if section == self.name:
-        siblingsByNumber[0].add(None)
-        continue
-
-      match = self.rxNumberedSiblings.match(section)
-      if match is not None:
-        siblingsByNumber[int(match.group(1))].add(match.group(1))
-
-    return siblingsByNumber
-
-  def __getNumberedSiblings(self):
-    siblings = []
-    siblingsByNumber = self.__getNumberedSiblingNames()
-
-    for num in sorted(siblingsByNumber.keys()):
-      siblings += self.__getSiblingsWithNumbers(siblingsByNumber[num])
-
-    return siblings
-
-  def __getSiblingsWithNumbers(self, numbers):
-    out = []
-    for number in numbers:
-      out.append(self.__getSiblingWithNumber(number))
-    return out
-
-  def __getSiblingWithNumber(self, number):
-    if number is None:
-      return self
-    else:
-      return self._getChildSection("%s.%s" % (self.name, number))
+    collator = SectionCollator(self.parser)
+    return collator.getSections(sectionName)
 
   def __getChildSections(self):
     out = {}
@@ -112,4 +61,6 @@ class IniConfigSection(ConfigSection):
       out[option] = self.parser.get(self.sectionName, option)
 
     return out
+
+from anyconf.formats.ini.sectionCollator import SectionCollator
 
