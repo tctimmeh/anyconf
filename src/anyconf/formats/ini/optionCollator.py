@@ -1,44 +1,18 @@
-import collections
-import re
 from anyconf.configSection import ConfigSection
+from .collator import Collator
 
-class OptionCollator(object):
+class OptionCollator(Collator):
   def __init__(self, parser, sectionName):
-    self.parser = parser
+    super(OptionCollator, self).__init__(parser)
     self.sectionName = sectionName
 
   def getOptions(self, name):
     name = name.lower()
+    return self._getObjects(name)
 
-    optionsByNumber = self.__getOptionsByNumber(name)
-    if not len(optionsByNumber):
-      return None
+  def _getObjectForName(self, name):
+    raw = self.parser.get(self.sectionName, name)
+    return ConfigSection._decodeOptionValue(raw)
 
-    out = self.__getOptionsFromNumbers(optionsByNumber)
-    if len(out) == 1:
-      return out[0]
-    return out
-
-  def __getOptionsByNumber(self, name):
-    rxNumberedOptions = re.compile('%s.(\d+)$' % name)
-
-    optionsByNumber = collections.defaultdict(set)
-    for option in self.parser.options(self.sectionName):
-      if option == name:
-        optionsByNumber[0].add(option)
-        continue
-
-      m = rxNumberedOptions.match(option)
-      if m is not None:
-        optionNumber = int(m.group(1))
-        optionsByNumber[optionNumber].add(option)
-
-    return optionsByNumber
-
-  def __getOptionsFromNumbers(self, optionsByNumber):
-    out = []
-    for optionNumber in sorted(optionsByNumber.keys()):
-      for option in optionsByNumber[optionNumber]:
-        out.append(ConfigSection._decodeOptionValue(self.parser.get(self.sectionName, option)))
-    return out
-
+  def _getRawDataSet(self):
+    return self.parser.options(self.sectionName)
