@@ -1,9 +1,10 @@
+from anyconf.formats.yaml.yamlConfigSection import YamlConfigSection
 from ...formats import FORMAT_YAML
 from ...config import Config
 
 import yaml
 
-class YamlConfig(Config):
+class YamlConfig(Config, YamlConfigSection):
   def __init__(self):
     super(YamlConfig, self).__init__(FORMAT_YAML)
 
@@ -12,12 +13,6 @@ class YamlConfig(Config):
 
   def _getChild(self, name):
     try:
-      return self.elementToConfigItem(self.parser[name])
+      return self._yamlEntryToConfigEntry(self.parser[name])
     except KeyError:
       return None
-
-  def elementToConfigItem(self, element):
-    if element is None:
-      return ''
-    else:
-      return element
