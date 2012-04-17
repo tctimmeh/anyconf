@@ -16,12 +16,12 @@ class YamlConfigSection(ConfigSection):
     if self._hasChildren(entry):
       return YamlConfigSection(entry)
     else:
-      return self._getScalarValue(entry)
+      return self._getValue(entry)
 
   def _hasChildren(self, entry):
     return type(entry) == dict
 
-  def _getScalarValue(self, entry):
+  def _getValue(self, entry):
     if entry is None:
       return ''
     else:
