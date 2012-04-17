@@ -23,7 +23,7 @@ class YamlConfigSection(ConfigSection):
 
   def _getValue(self, entry):
     if entry is None:
-      return ''
+      return True
     else:
       return entry
 
