@@ -16,3 +16,6 @@ class YamlConfig(Config, YamlConfigSection):
       return self._yamlEntryToConfigEntry(self.parser[name])
     except KeyError:
       return None
+
+  def getChildren(self):
+    return list(self.parser.keys())
