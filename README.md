@@ -166,7 +166,7 @@ This section demonstrates how AnyConf maps each file format to python objects.
           &nbsp;&nbsp;f:
           &nbsp;&nbsp;&nbsp;&nbsp;- attr1: first<br />
           &nbsp;&nbsp;&nbsp;&nbsp;- attr2: second<br />
-          &lt;/e&gt;</td>
+      </td>
       <td>config.e.f[0].attr1 == 'first'<br /></td>
       <td>If a list contains a dictionary of items, they can be accessed by indexing their elements</td>
     </tr>
