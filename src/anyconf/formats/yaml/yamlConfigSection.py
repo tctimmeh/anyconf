@@ -6,6 +6,10 @@ class YamlConfigSection(ConfigSection):
     super(YamlConfigSection, self).__init__()
     self.entry = entry
 
+  def getChildren(self):
+    if self._hasChildren(self.entry):
+      return self.entry
+
   def _getChild(self, name):
     try:
       return self._yamlEntryToConfigEntry(self.entry[name])

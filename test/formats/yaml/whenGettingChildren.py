@@ -13,5 +13,13 @@ class WhenGettingChildren(YamlFixture):
   def testThatGettingChildrenOfConfigReturnsTopLevelElement(self):
     children = self.config.getChildren()
     assert len(children) == 1
-    assert children == ['top']
+    assert children == {'top': self.element}
+
+  def testThatGettingChildrenOfConfigSectionReturnsChildren(self):
+    self.configSetup('''
+      top:
+        element: %s''' % self.element)
+    children = self.config.top.getChildren()
+    assert len(children) == 1
+    assert children == {'element': self.element}
 

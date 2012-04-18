@@ -18,4 +18,4 @@ class YamlConfig(Config, YamlConfigSection):
       return None
 
   def getChildren(self):
-    return list(self.parser.keys())
+    return self.parser
