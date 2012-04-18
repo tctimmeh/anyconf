@@ -58,6 +58,11 @@ Supported Formats
       <td><a href="http://docs.python.org/release/3.1.3/library/xml.dom.minidom.html">minidom</a></td>
       <td></td>
     </tr>
+    <tr>
+      <td>.yaml</td>
+      <td><a href="http://pyyaml.org">PyYaml</a></td>
+      <td>Conforms to <a href="http://yaml.org/spec/1.1/">YAML 1.1</a> spec</td>
+    </tr>
   </tbody>
 </table>
 
