@@ -127,6 +127,13 @@ This section demonstrates how AnyConf maps each file format to python objects.
   </tbody>
 </table>
 
+#### Notes ####
+
+* Elements with attributes or child elements *ignore* their CDATA text. It is best to encapsulate all text within an
+  element and avoid attributes altogether.
+* Use the `getAsList` method for options that may be lists of less than 2 elements to guarantee that the API will
+  always return a list.
+
 ### YAML ###
 <table>
   <thead>
@@ -174,9 +181,3 @@ This section demonstrates how AnyConf maps each file format to python objects.
 </table>
 
 
-#### Notes ####
-
-* Elements with attributes or child elements *ignore* their CDATA text. It is best to encapsulate all text within an
-  element and avoid attributes altogether.
-* Use the `getAsList` method for options that may be lists of less than 2 elements to guarantee that the API will
-  always return a list.
