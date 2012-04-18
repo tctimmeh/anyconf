@@ -127,6 +127,53 @@ This section demonstrates how AnyConf maps each file format to python objects.
   </tbody>
 </table>
 
+### YAML ###
+<table>
+  <thead>
+    <tr>
+      <td>YAML Source</td>
+      <td>Python Representation</td>
+      <td>Comments</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>e:<br />&nbsp;&nbsp;my text<br />&nbsp;&nbsp;goes here</td>
+      <td>config.e == 'my text goes here'</td>
+      <td>Accessing an element that contains only text returns that text as the value of the option with leading
+          and trailing whitespace removed.</td>
+    </tr>
+    <tr>
+      <td>e:<br />
+          &nbsp;&nbsp;a: true<br />
+          &nbsp;&nbsp;b: false<br />
+          &nbsp;&nbsp;c: <br />
+      <td>config.e.a == True<br />
+          config.e.b == False<br />
+          config.e.c == True</td>
+      <td>Case-insensitive "true" and "false" become the boolean True and False respectively. Blank text also become
+          the boolean True.</td>
+    </tr>
+    <tr>
+      <td>e:<br />
+          &nbsp;&nbsp;f: something<br />
+      </td>
+      <td>config.e.f == 'something'</td>
+      <td>Nested elements form a hierarchy of python objects.</td>
+    </tr>
+    <tr>
+      <td>e:<br />
+          &nbsp;&nbsp;f:
+          &nbsp;&nbsp;&nbsp;&nbsp;- attr1: first<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;- attr2: second<br />
+          &lt;/e&gt;</td>
+      <td>config.e.f[0].attr1 == 'first'<br /></td>
+      <td>If a list contains a dictionary of items, they can be accessed by indexing their elements</td>
+    </tr>
+  </tbody>
+</table>
+
+
 #### Notes ####
 
 * Elements with attributes or child elements *ignore* their CDATA text. It is best to encapsulate all text within an
